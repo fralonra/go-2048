@@ -62,11 +62,6 @@ func Test_merge(t *testing.T) {
 			[Size]cell{4, 0, 0, 0},
 		},
 		{
-			"Merge [0, 2, 0, 2]",
-			args{row: [size]cell{0, 2, 0, 2}},
-			[size]cell{4, 0, 0, 0},
-		},
-		{
 			"Merge [4, 2, 0, 0]",
 			args{row: [Size]cell{4, 2, 0, 0}},
 			[Size]cell{4, 2, 0, 0},
