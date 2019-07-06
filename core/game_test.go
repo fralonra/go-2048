@@ -514,3 +514,55 @@ func TestGame_canMove(t *testing.T) {
 		})
 	}
 }
+
+func TestGame_newTurn(t *testing.T) {
+	type fields struct {
+		board board
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   GameState
+	}{
+		{
+			"newTurn normal A",
+			fields{board{
+				[Size]int{2, 0, 0, 0},
+				[Size]int{0, 0, 0, 0},
+				[Size]int{0, 0, 0, 0},
+				[Size]int{0, 0, 0, 0},
+			}},
+			StateNormal,
+		},
+		{
+			"newTurn lost A",
+			fields{board{
+				[Size]int{2, 4, 8, 16},
+				[Size]int{4, 8, 16, 32},
+				[Size]int{8, 16, 32, 64},
+				[Size]int{16, 32, 64, 128},
+			}},
+			StateLost,
+		},
+		{
+			"newTurn win A",
+			fields{board{
+				[Size]int{2048, 0, 0, 0},
+				[Size]int{0, 0, 0, 0},
+				[Size]int{0, 0, 0, 0},
+				[Size]int{0, 0, 0, 0},
+			}},
+			StateWin,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			g := &Game{
+				board: tt.fields.board,
+			}
+			if got := g.newTurn(); got != tt.want {
+				t.Errorf("Game.newTurn() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

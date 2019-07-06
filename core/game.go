@@ -23,6 +23,7 @@ type board [Size][Size]cell
 
 type Game struct {
 	MaxNumber int
+	NewNumberPos coordinate
 	State     GameState
 
 	board
@@ -161,7 +162,13 @@ func (g *Game) newTurn() GameState {
 		}
 	}
 	g.MaxNumber = maxTmp
+
 	g.generateNewNumber()
+	// TODO: no need to check all cells if they can move
+	if len(g.availableCells) == 0 && !g.canMove() {
+		return StateLost
+	}
+
 	return StateNormal
 }
 
@@ -169,8 +176,8 @@ func (g *Game) generateNewNumber() {
 	len := len(g.availableCells)
 	if len > 0 {
 		idx := rand.Intn(len)
-		position := g.availableCells[idx]
-		g.board[position[0]][position[1]] = start_number
+		g.NewNumberPos = g.availableCells[idx]
+		g.board[g.NewNumberPos[0]][g.NewNumberPos[1]] = start_number
 		g.availableCells = append(g.availableCells[:idx], g.availableCells[idx+1:]...)
 	}
 }
