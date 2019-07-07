@@ -30,19 +30,17 @@ func main() {
 	}
 
 	a.header = widgets.NewParagraph()
-	a.header.Text = "Play 2048 in cmd!"
 	a.header.SetRect(0, 0, 20, 4)
-
-	ui.Render(a.header)
 
 	a.table = widgets.NewTable()
 	a.table.Rows = [][]string{}
 	a.table.TextStyle = ui.NewStyle(ui.ColorRed)
 	a.table.TextAlignment = ui.AlignCenter
-	a.initTableRows()
-	a.renderTableRows()
 	a.table.SetRect(0, 6, 20, 15)
 
+	a.renderNewGame()
+
+	ui.Render(a.header)
 	ui.Render(a.table)
 
 	for e := range ui.PollEvents() {
@@ -50,6 +48,10 @@ func main() {
 			switch e.ID {
 			case "q", "<C-c>", "<Escape>":
 				return
+			case "r":
+				a.game = core.NewGame()
+				a.renderNewGame()
+				ui.Render(a.header)
 			case "<Left>":
 				a.game.ToLeft()
 			case "<Right>":
@@ -81,6 +83,12 @@ func (a *app) takeTurns() {
 	ui.Render(a.table)
 }
 
+func (a *app) renderNewGame() {
+	a.header.Text = "Play 2048 in cmd!"
+	a.initTableRows()
+	a.renderTableRows()
+}
+
 func (a *app) initTableRows() {
 	for idx := 0; idx < core.Size; idx++ {
 		row := a.game.GetRow(idx)
@@ -108,7 +116,10 @@ func (a *app) renderTableRows() {
 			} else {
 				text = ""
 			}
-			(a.table.Rows)[idx][col] = text
+			if idx == a.game.NewNumberPos[0] && col == a.game.NewNumberPos[1] {
+				text += "*"
+			}
+			a.table.Rows[idx][col] = text
 		}
 	}
 }
