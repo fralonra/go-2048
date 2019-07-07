@@ -22,9 +22,9 @@ type coordinate [2]int
 type board [Size][Size]cell
 
 type Game struct {
-	MaxNumber int
+	MaxNumber    int
 	NewNumberPos coordinate
-	State     GameState
+	State        GameState
 
 	board
 	availableCells []coordinate
@@ -142,7 +142,7 @@ func (g *Game) mergeBottom() (hasMoved bool) {
 }
 
 func (g *Game) newTurn() GameState {
-	if len(g.availableCells) == 0 && !g.canMove() {
+	if !g.canMove() {
 		return StateLost
 	}
 
@@ -165,7 +165,7 @@ func (g *Game) newTurn() GameState {
 
 	g.generateNewNumber()
 	// TODO: no need to check all cells if they can move
-	if len(g.availableCells) == 0 && !g.canMove() {
+	if !g.canMove() {
 		return StateLost
 	}
 
@@ -186,6 +186,9 @@ func (g *Game) canMove() bool {
 	for row := 0; row < Size; row++ {
 		for col := 0; col < Size; col++ {
 			value := g.board[row][col]
+			if value == 0 {
+				return true
+			}
 			if col+1 < Size {
 				if g.board[row][col+1] == value || g.board[row][col+1] == 0 {
 					return true

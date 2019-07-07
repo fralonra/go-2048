@@ -495,6 +495,16 @@ func TestGame_canMove(t *testing.T) {
 		{
 			"canMove F",
 			fields{board{
+				[Size]int{2, 0, 2, 0},
+				[Size]int{0, 2, 0, 2},
+				[Size]int{2, 0, 2, 0},
+				[Size]int{0, 2, 0, 2},
+			}},
+			true,
+		},
+		{
+			"canMove G",
+			fields{board{
 				[Size]int{2, 16, 2, 16},
 				[Size]int{4, 8, 4, 8},
 				[Size]int{8, 4, 8, 4},
