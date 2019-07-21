@@ -2,6 +2,7 @@ package core
 
 import (
 	"math/rand"
+	"time"
 )
 
 const (
@@ -17,6 +18,8 @@ const (
 	StateLost
 )
 
+var random *rand.Rand
+
 type cell = int
 type coordinate [2]int
 type board [Size][Size]cell
@@ -31,6 +34,8 @@ type Game struct {
 }
 
 func NewGame() *Game {
+	random = rand.New(rand.NewSource(time.Now().UnixNano()))
+
 	game := &Game{}
 	game.State = StateNormal
 	for row := 0; row < Size; row++ {
@@ -175,7 +180,7 @@ func (g *Game) newTurn() GameState {
 func (g *Game) generateNewNumber() {
 	len := len(g.availableCells)
 	if len > 0 {
-		idx := rand.Intn(len)
+		idx := random.Intn(len)
 		g.NewNumberPos = g.availableCells[idx]
 		g.board[g.NewNumberPos[0]][g.NewNumberPos[1]] = start_number
 		g.availableCells = append(g.availableCells[:idx], g.availableCells[idx+1:]...)
