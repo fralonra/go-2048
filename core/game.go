@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	Size         = 4
-	start_number = 2
+	Size        = 4
+	startNumber = 2
 )
 
 type GameState uint8
@@ -43,6 +43,7 @@ func NewGame() *Game {
 			game.availableCells = append(game.availableCells, coordinate{row, col})
 		}
 	}
+	game.MaxNumber = startNumber
 	game.generateNewNumber()
 	game.generateNewNumber()
 	return game
@@ -182,7 +183,7 @@ func (g *Game) generateNewNumber() {
 	if len > 0 {
 		idx := random.Intn(len)
 		g.NewNumberPos = g.availableCells[idx]
-		g.board[g.NewNumberPos[0]][g.NewNumberPos[1]] = start_number
+		g.board[g.NewNumberPos[0]][g.NewNumberPos[1]] = startNumber
 		g.availableCells = append(g.availableCells[:idx], g.availableCells[idx+1:]...)
 	}
 }
