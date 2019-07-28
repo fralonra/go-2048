@@ -7,3 +7,4 @@ A very clumsy implement of core functionalities of [2048](https://github.com/gab
 ### USED BY
 
 - [ebiten-2048](https://github.com/fralonra/ebiten-2048)
+- [engo-2048](https://github.com/fralonra/engo-2048)
