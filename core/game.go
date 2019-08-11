@@ -6,19 +6,20 @@ import (
 )
 
 const (
-	// The size of the game board.
+	// Size is the size of the game board.
 	Size        = 4
 	startNumber = 2
 )
 
+// GameState is the type represents the game state.
 type GameState uint8
 
 const (
-	// The state represents the game is still being played.
+	// StateNormal is the state represents the game is still being played.
 	StateNormal GameState = iota
-	// The state represents the player has won the game.
+	// StateWin is the state represents the player has won the game.
 	StateWin
-	// The state represents the player has lost.
+	// StateLost is the state represents the player has lost.
 	StateLost
 )
 
@@ -28,9 +29,9 @@ type cell = int
 type coordinate [2]int
 type board [Size][Size]cell
 
-// The struct stores the core data of the game.
+// Game is the struct stores the core data of the 2048 game.
 type Game struct {
-	// Max is the maximum number appeared in the board.
+	// MaxNumber is the maximum number appeared in the board.
 	MaxNumber int
 	// NewNumberPos is the position where a new number is created this turn.
 	NewNumberPos coordinate
@@ -58,7 +59,7 @@ func NewGame() *Game {
 	return game
 }
 
-// Slide to left.
+// ToLeft slides the board to left.
 func (g *Game) ToLeft() {
 	hasMoved := g.mergeLeft()
 	if hasMoved {
@@ -66,7 +67,7 @@ func (g *Game) ToLeft() {
 	}
 }
 
-// Slide to right.
+// ToRight slides the board to right.
 func (g *Game) ToRight() {
 	hasMoved := g.mergeRight()
 	if hasMoved {
@@ -74,7 +75,7 @@ func (g *Game) ToRight() {
 	}
 }
 
-// Slide up.
+// ToTop slides the board up.
 func (g *Game) ToTop() {
 	hasMoved := g.mergeTop()
 	if hasMoved {
@@ -82,7 +83,7 @@ func (g *Game) ToTop() {
 	}
 }
 
-// Slide down.
+// ToBottom slides the board down.
 func (g *Game) ToBottom() {
 	hasMoved := g.mergeBottom()
 	if hasMoved {
@@ -90,12 +91,12 @@ func (g *Game) ToBottom() {
 	}
 }
 
-// Get the tile number of the given position.
+// Get returns the tile number of the given position.
 func (g *Game) Get(row int, colomn int) cell {
 	return g.board[row][colomn]
 }
 
-// Get an array of tile numbers of the given row.
+// GetRow returns an array of tile numbers of the given row.
 func (g *Game) GetRow(index int) [Size]cell {
 	return g.board[index]
 }
