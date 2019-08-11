@@ -6,6 +6,7 @@ import (
 	"image/color"
 )
 
+// Get the cell color using default preset.
 func CellColor(value int) color.Color {
 	switch value {
 	case 0:
@@ -36,6 +37,7 @@ func CellColor(value int) color.Color {
 	return color.White
 }
 
+// Transform colors to seperated r, g, b, a values.
 func ColorToScale(clr color.Color) (float64, float64, float64, float64) {
 	r, g, b, a := clr.RGBA()
 	rf := float64(r) / 0xffff

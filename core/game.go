@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	// The size of the game board.
 	Size        = 4
 	startNumber = 2
 )
@@ -13,8 +14,11 @@ const (
 type GameState uint8
 
 const (
+	// The state represents the game is still being played.
 	StateNormal GameState = iota
+	// The state represents the player has won the game.
 	StateWin
+	// The state represents the player has lost.
 	StateLost
 )
 
@@ -24,15 +28,20 @@ type cell = int
 type coordinate [2]int
 type board [Size][Size]cell
 
+// The struct stores the core data of the game.
 type Game struct {
-	MaxNumber    int
+	// Max is the maximum number appeared in the board.
+	MaxNumber int
+	// NewNumberPos is the position where a new number is created this turn.
 	NewNumberPos coordinate
-	State        GameState
+	// State indicates the current state of the game.
+	State GameState
 
 	board
 	availableCells []coordinate
 }
 
+// NewGame starts a new 2048 game. Returns the Game struct created.
 func NewGame() *Game {
 	random = rand.New(rand.NewSource(time.Now().UnixNano()))
 
@@ -49,6 +58,7 @@ func NewGame() *Game {
 	return game
 }
 
+// Slide to left.
 func (g *Game) ToLeft() {
 	hasMoved := g.mergeLeft()
 	if hasMoved {
@@ -56,6 +66,7 @@ func (g *Game) ToLeft() {
 	}
 }
 
+// Slide to right.
 func (g *Game) ToRight() {
 	hasMoved := g.mergeRight()
 	if hasMoved {
@@ -63,6 +74,7 @@ func (g *Game) ToRight() {
 	}
 }
 
+// Slide up.
 func (g *Game) ToTop() {
 	hasMoved := g.mergeTop()
 	if hasMoved {
@@ -70,6 +82,7 @@ func (g *Game) ToTop() {
 	}
 }
 
+// Slide down.
 func (g *Game) ToBottom() {
 	hasMoved := g.mergeBottom()
 	if hasMoved {
@@ -77,10 +90,12 @@ func (g *Game) ToBottom() {
 	}
 }
 
+// Get the tile number of the given position.
 func (g *Game) Get(row int, colomn int) cell {
 	return g.board[row][colomn]
 }
 
+// Get an array of tile numbers of the given row.
 func (g *Game) GetRow(index int) [Size]cell {
 	return g.board[index]
 }
